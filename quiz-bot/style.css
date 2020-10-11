@@ -1,0 +1,196 @@
+/*
+Theme Name: Child Theme Test
+Theme URI: http://example.com/twenty-fifteen-child/
+description: >-
+  Child-Theme-Test
+Author: John Doe
+Author URI: http://example.com
+Template: twentytwenty
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+Text Domain: Child-Theme-Test
+*/
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+   STARTS HERE
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* ENDS HERE 
+  http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+/* class list
+quiz_bot_inner_box
+quiz_bot_bot_message_outer_box
+quiz_bot_bot_message_inner_box
+quiz_bot_bot_message
+quiz_bot_user_message_outer_box
+quiz_bot_user_message_inner_box
+quiz_bot_user_message
+quiz_bot_hint_outer_box
+quiz_bot_hint_inner_box
+quiz_bot_hint
+quiz_bot_button
+quiz_bot_button_inner_box
+quiz_bot_button_outer_box 
+*/
+
+.quiz_bot {
+  min-height: 300px;
+}
+
+.quiz_bot_inner_box {
+  height:100%;
+  width:100%;
+  background-color: burlywood;
+}
+
+.quiz_bot_bot_message_outer_box {
+  background-color: goldenrod;
+  width:90%;
+  margin:auto;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.quiz_bot_bot_message_inner_box {
+  width:60%;
+  background-color: greenyellow;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.quiz_bot_bot_message{
+  padding: 0.5em 0.7em;
+  border-radius: 10px;
+  width:70%;
+  background-color: rosybrown;
+}
+
+.quiz_bot_user_message_outer_box{
+  width:90%;
+  background-color: goldenrod;
+  margin:auto;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+.quiz_bot_user_message_inner_box{
+  width:60%;
+  background-color: greenyellow;
+  padding-top: 0.5em;
+  padding-bottom: 0 em;
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.quiz_bot_user_message{
+  border-top-left-radius:10px;
+  border-top-right-radius:10px;
+  padding: 0.5em 0.7em;
+  width:70%;
+  background-color: rosybrown;
+}
+.quiz_bot_hint_outer_box{
+  width:90%;
+  background-color: goldenrod;
+  margin:auto;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.quiz_bot_hint_inner_box{
+  width:60%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  display:flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: greenyellow;
+}
+.quiz_bot_hint{
+  border-radius: 10px;
+  padding: 0.5em 0.7em;
+  width:70%;
+  background-color: rosybrown;
+}
+
+.quiz_bot_button_outer_box {
+  width:100%;
+  background-color: goldenrod;
+  margin:auto;
+  display:flex;
+  justify-content: center;
+  align-items: right;
+}
+.quiz_bot_button_inner_box {
+  width:60%;
+  padding-top: 0em;
+  padding-bottom: 0.5em;
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: greenyellow;
+}
+.quiz_bot_button{
+  width:74.8%;
+  background-color: rosybrown;
+}
