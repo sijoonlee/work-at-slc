@@ -197,6 +197,8 @@ class Done{
 
 class MessageTask{
     /**
+     * @param {String} botName 
+     * @param {String} userName
      * @param {String} type
      *      type of message [one-way-message, multiple-choice]
      * @param {Object} on
@@ -213,7 +215,9 @@ class MessageTask{
      * @member {Policy} policy
      *      Policy Policy - this could be null
      */
-    constructor(type, on, done, policy=null){
+    constructor(botName, userName, type, on, done, policy=null){
+        this.botName = botName;
+        this.userName = userName;
         this.message = null;
         if(type == "one-way-message"){
             this.message = new OneWayMessage(on.type, on.text);
@@ -240,7 +244,7 @@ class MessageMachine {
      *      Collection of MessageTask objects
      */
 
-    constructor(machine){
+    constructor(machine, botName=null, userName=null){
 
         this.payloadGen = PayloadFromMachine.payloadGen;
 
@@ -255,6 +259,10 @@ class MessageMachine {
             console.error(err.message);
         }
         
+        if(botName != null) machine.botName = botName
+        if(userName != null) machine.userName = userName
+        console.log(machine.botName)
+        console.log(machine.userName)
         this.initial = machine.initial;
         this.states = {};
         Object.keys(machine.states).forEach( name => {
@@ -267,7 +275,7 @@ class MessageMachine {
                 console.error(err.message);
             }
             
-            this.states[name] = new MessageTask(machine.states[name].type, machine.states[name].on, machine.states[name].done, machine.states[name].policy );
+            this.states[name] = new MessageTask(machine.botName, machine.userName, machine.states[name].type, machine.states[name].on, machine.states[name].done, machine.states[name].policy );
         });   
     }
 
@@ -280,7 +288,7 @@ class MessageMachine {
 
 
     runOneWayMsg = (msgName, task, type, scoresCollector) => {
-        return this.payloadGen(msgName, type, task.message.type, task.message.text, task.done.next, scoresCollector);
+        return this.payloadGen(task.botName, task.userName, msgName, type, task.message.type, task.message.text, task.done.next, scoresCollector);
     }
 
     /**
@@ -359,7 +367,7 @@ class MessageMachine {
             }
         }
 
-        return this.payloadGen(msgName, type, task.message.type, task.message.text, 
+        return this.payloadGen(task.botName, task.userName, msgName, type, task.message.type, task.message.text, 
             next, scoresCollector, task.message.choices.options, disabledOptions, isCorrect, wrongToHints, numRetries);
     }
 

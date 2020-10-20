@@ -1,5 +1,7 @@
 const machineScheme = {    
     "initial": "hello",
+    "userName": "efg",
+    "botName": "abc",
     "states": {
         "hello": {
             "type":"one-way-message", // doesn't expect response from user

@@ -1,6 +1,8 @@
 class PayloadFromMachine{            
     constructor(payload){
         try {
+            this.botName = payload.botName;
+            this.userName = payload.userName;
             this.msgName = payload.msgName;
             this.type = payload.type;
             this.subtype = payload.subtype;
@@ -18,7 +20,7 @@ class PayloadFromMachine{
         
     }
 
-    static payloadGen = (msgName, type, subtype, text, next, scoresCollector, 
+    static payloadGen = (botName, userName, msgName, type, subtype, text, next, scoresCollector, 
                         options=null, disabledOptions=null, isCorrect=null, wrongToHints=null, numRetries=null) => {
         try {
             if(msgName == null) throw new Error("PayloadGen: name can't be null");
@@ -33,7 +35,7 @@ class PayloadFromMachine{
         }
         
         const payload = {
-            msgName, type, subtype, text, next, scoresCollector, 
+            botName, userName, msgName, type, subtype, text, next, scoresCollector, 
             options, disabledOptions, isCorrect, wrongToHints, numRetries
         }
         return payload;

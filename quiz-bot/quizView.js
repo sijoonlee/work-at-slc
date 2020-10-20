@@ -1,6 +1,7 @@
 import PayloadFromMachine from './quizPayload.js';
 
 
+
 const CLS_QUIZ_BOT_INNER_BOX                = "quiz_bot_inner_box";
 const CLS_QUIZ_BOT_BOT_MESSAGE_OUTER_BOX        = "quiz_bot_bot_message_outer_box";
 const CLS_QUIZ_BOT_BOT_MESSAGE_INNER_BOX        = "quiz_bot_bot_message_inner_box";
@@ -11,9 +12,15 @@ const CLS_QUIZ_BOT_USER_MESSAGE             = "quiz_bot_user_message";
 const CLS_QUIZ_BOT_HINT_OUTER_BOX           = "quiz_bot_hint_outer_box";
 const CLS_QUIZ_BOT_HINT_INNER_BOX           = "quiz_bot_hint_inner_box";
 const CLS_QUIZ_BOT_HINT                     = "quiz_bot_hint";
-const CLS_QUIZ_BOT_BUTTON              = "quiz_bot_button";
-const CLS_QUIZ_BOT_BUTTON_INNER_BOX    = "quiz_bot_button_inner_box";
 const CLS_QUIZ_BOT_BUTTON_OUTER_BOX    = "quiz_bot_button_outer_box";
+const CLS_QUIZ_BOT_BUTTON_INNER_BOX    = "quiz_bot_button_inner_box";
+const CLS_QUIZ_BOT_BUTTON              = "quiz_bot_button";
+const CLS_QUIZ_BOT_BOT_NAME_OUTER_BOX = "quiz_bot_bot_name_outer_box";
+const CLS_QUIZ_BOT_BOT_NAME_INNER_BOX = "quiz_bot_bot_name_inner_box";
+const CLS_QUIZ_BOT_BOT_NAME = "quiz_bot_bot_name";
+const CLS_QUIZ_BOT_USER_NAME_OUTER_BOX = "quiz_bot_user_name_outer_box";
+const CLS_QUIZ_BOT_USER_NAME_INNER_BOX = "quiz_bot_user_name_inner_box";
+const CLS_QUIZ_BOT_USER_NAME = "quiz_bot_user_name";
 
 
 class ViewGenerator{
@@ -71,8 +78,6 @@ class ViewGenerator{
         }
     }
 
-
-
     createButton = (content) => {
         const $msg = document.createElement("button");
         $msg.setAttribute("class", CLS_QUIZ_BOT_BUTTON);
@@ -91,11 +96,32 @@ class ViewGenerator{
         }
     }
 
+    createUserNameBox = (userName) => {
+        const $name = this.createElm(CLS_QUIZ_BOT_BOT_NAME);
+        $name.innerHTML = userName;
+        const $inner = this.createElm(CLS_QUIZ_BOT_BOT_NAME_INNER_BOX);
+        //const $outer = this.createElm(CLS_QUIZ_BOT_BOT_NAME_OUTER_BOX);
+        $inner.appendChild($name);
+        //$outer.appendChild($inner);        
+        return $inner;
+    }
+
+    createBotNameBox = (botName) => {
+        const $name = this.createElm(CLS_QUIZ_BOT_BOT_NAME);
+        $name.innerHTML = botName;
+        const $inner = this.createElm(CLS_QUIZ_BOT_BOT_NAME_INNER_BOX);
+        //const $outer = this.createElm(CLS_QUIZ_BOT_BOT_NAME_OUTER_BOX);
+        $inner.appendChild($name);
+        //$outer.appendChild($inner);
+        return $inner;
+
+    }
+
     createInnerBox = () => {
         return this.createElm(CLS_QUIZ_BOT_INNER_BOX);
     }
 
-    createBotMessage = (msgName, type, subtype, content, putbuttonHere) => {
+    createBotMessage = (msgName, type, subtype, content, botName, putbuttonHere) => {
         const $msg = this.createElm(CLS_QUIZ_BOT_BOT_MESSAGE);
         $msg.setAttribute("id", msgName);
         
@@ -107,8 +133,11 @@ class ViewGenerator{
         
         const $inner = this.createElm(CLS_QUIZ_BOT_BOT_MESSAGE_INNER_BOX);
         const $outer = this.createElm(CLS_QUIZ_BOT_BOT_MESSAGE_OUTER_BOX);
+        const $nameBox = this.createBotNameBox(botName);
         $inner.appendChild($msg);
+        $inner.appendChild($nameBox);
         $outer.appendChild($inner);
+
         if(putbuttonHere){
             const $btn = this.createButton("Next");
             this.bindButton($btn);
@@ -144,14 +173,16 @@ class ViewGenerator{
         }
     }
     
-    createUserMessage = (msgName, type, subtype, options, disabledOptions, numRetries, putbuttonHere) => {
+    createUserMessage = (msgName, type, subtype, options, disabledOptions, numRetries, userName, putbuttonHere) => {
         let $msg = this.createElm(CLS_QUIZ_BOT_USER_MESSAGE);
         if(type == "multiple-choice") {
             this.createOptions($msg, msgName + numRetries, subtype, options, disabledOptions);
         }
         const $inner = this.createElm(CLS_QUIZ_BOT_USER_MESSAGE_INNER_BOX);
         const $outer = this.createElm(CLS_QUIZ_BOT_USER_MESSAGE_OUTER_BOX);
+        const $nameBox = this.createUserNameBox(userName);
         $inner.appendChild($msg);
+        $inner.appendChild($nameBox);
         $outer.appendChild($inner);
         if(putbuttonHere) {
             const $btn = this.createButton("Submit");
@@ -212,9 +243,6 @@ class ViewGenerator{
     installBot = ($dom) => {
         $dom.appendChild(this.createInnerBox());
         this.$root = $dom.lastChild;
-        //$dom.lastChild.appendChild(this.createBotMessage("bot message"));
-        //$dom.lastChild.appendChild(this.createBotMessage("iaksjfl"));   
-        //document.getElementById("quiz_bot_inner_box").innerHTML = "aaaa";
     }
 
     /**
@@ -222,18 +250,20 @@ class ViewGenerator{
      * @param {PayloadFromMachine} payload 
      */
     create = (payload) => {
+        console.log(payload.botName)
+        console.log(payload.userName)
         this.deleteAllButtons();
         if( payload.type == 'one-way-message' ){
-            this.createBotMessage(payload.msgName, payload.type, payload.subtype, payload.text, false);
+            this.createBotMessage(payload.msgName, payload.type, payload.subtype, payload.text, payload.botName, false);
             this.createButtonOnlyUserMessage(payload.subtype, payload.text);
             // need to have 'click to next'
         } else if ( payload.type == 'multiple-choice' ) {
             if(payload.wrongToHints != null && Object.keys(payload.wrongToHints).length > 0 ){
                 this.createHint(payload.wrongToHints);
             }
-            this.createBotMessage(payload.msgName, payload.type, payload.subtype, payload.text, false);
+            this.createBotMessage(payload.msgName, payload.type, payload.subtype, payload.text, payload.botName, false);
             this.createUserMessage(payload.msgName, payload.type, payload.subtype, 
-                payload.options, payload.disabledOptions, payload.numRetries, true, "Submit");
+                payload.options, payload.disabledOptions, payload.numRetries, payload.userName, true, "Submit");
         }
     }
 }
